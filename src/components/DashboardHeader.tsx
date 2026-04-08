@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Download, Trash2, Activity } from "lucide-react";
+import { Download, Trash2, Activity, Server, AlertTriangle, CheckCircle } from "lucide-react";
 import { Service } from "@/lib/services";
 
 interface DashboardHeaderProps {
@@ -10,8 +10,11 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ services, onInstallAll, onUninstallAll }: DashboardHeaderProps) {
   const running = services.filter((s) => s.status === "running").length;
-  const errors = services.filter((s) => s.status === "error").length;
+  const errors = services.filter((s) => s.status === "error" || s.status === "healing").length;
   const installed = services.filter((s) => s.installed).length;
+  const autoConfigured = services.filter((s) => s.autoConfigured).length;
+  const totalCpu = services.reduce((sum, s) => sum + (s.cpu || 0), 0);
+  const totalMem = services.reduce((sum, s) => sum + (s.memory || 0), 0);
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
@@ -23,10 +26,16 @@ export function DashboardHeader({ services, onInstallAll, onUninstallAll }: Dash
               <span className="text-glow-primary">MediaStack</span>
               <span className="text-muted-foreground font-normal">Control</span>
             </h1>
-            <div className="flex items-center gap-4 mt-1">
-              <StatPill label="Running" value={running} color="text-success" />
-              <StatPill label="Errors" value={errors} color="text-destructive" />
-              <StatPill label="Installed" value={`${installed}/${services.length}`} color="text-muted-foreground" />
+            <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+              <StatChip icon={<CheckCircle className="w-3 h-3 text-success" />} label="Running" value={running} />
+              {errors > 0 && <StatChip icon={<AlertTriangle className="w-3 h-3 text-destructive" />} label="Issues" value={errors} />}
+              <StatChip icon={<Server className="w-3 h-3 text-muted-foreground" />} label="Installed" value={`${installed}/${services.length}`} />
+              {autoConfigured > 0 && <StatChip icon={<Activity className="w-3 h-3 text-primary" />} label="Auto-wired" value={autoConfigured} />}
+              {totalCpu > 0 && (
+                <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-2 py-0.5">
+                  CPU: {totalCpu.toFixed(1)}% · MEM: {totalMem}MB
+                </span>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -43,10 +52,10 @@ export function DashboardHeader({ services, onInstallAll, onUninstallAll }: Dash
   );
 }
 
-function StatPill({ label, value, color }: { label: string; value: string | number; color: string }) {
+function StatChip({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
   return (
-    <span className="text-xs font-mono text-muted-foreground">
-      {label}: <span className={`font-semibold ${color}`}>{value}</span>
+    <span className="inline-flex items-center gap-1 text-xs font-mono text-muted-foreground">
+      {icon} {label}: <span className="font-semibold text-foreground">{value}</span>
     </span>
   );
 }
