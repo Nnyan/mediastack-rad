@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Download, Trash2, Activity, Server, AlertTriangle, CheckCircle, Sun, Moon } from "lucide-react";
-import { Service } from "@/lib/services";
+import { Service, ServiceDefinition } from "@/lib/services";
+import { AddAppDialog } from "./AddAppDialog";
 
 interface DashboardHeaderProps {
   services: Service[];
@@ -8,9 +9,10 @@ interface DashboardHeaderProps {
   onUninstallAll: () => void;
   isDark: boolean;
   onToggleTheme: () => void;
+  onAddServices: (defs: ServiceDefinition[]) => void;
 }
 
-export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark, onToggleTheme }: DashboardHeaderProps) {
+export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark, onToggleTheme, onAddServices }: DashboardHeaderProps) {
   const running = services.filter((s) => s.status === "running").length;
   const errors = services.filter((s) => s.status === "error" || s.status === "healing").length;
   const installed = services.filter((s) => s.installed).length;
@@ -44,6 +46,7 @@ export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark
             <Button variant="outline" size="icon" className="h-8 w-8" onClick={onToggleTheme} title={isDark ? "Switch to light" : "Switch to dark"}>
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
+            <AddAppDialog existingIds={services.map((s) => s.id)} onAddServices={onAddServices} />
             <Button variant="outline" size="sm" className="font-mono text-xs border-primary/30 text-primary hover:bg-primary/10" onClick={onInstallAll}>
               <Download className="w-3.5 h-3.5 mr-1.5" /> Install All
             </Button>
