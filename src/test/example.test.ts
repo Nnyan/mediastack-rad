@@ -87,7 +87,7 @@ services:
   });
 
   it("throws on invalid YAML with no services", () => {
-    expect(() => parseComposeFile("not: a: compose: file")).toThrow("No services found");
+    expect(() => parseComposeFile("version: \"3\"\nname: noop")).toThrow("No services found");
   });
 
   it("assigns correct category for media services", () => {
