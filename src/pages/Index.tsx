@@ -5,6 +5,7 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { ServiceConfigPanel } from "@/components/ServiceConfigPanel";
 import { DependencyMap } from "@/components/DependencyMap";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LayoutGrid, GitBranch } from "lucide-react";
 
@@ -16,7 +17,9 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} isDark={isDark} onToggleTheme={toggleTheme} onAddServices={addCustomServices} />
+      <ErrorBoundary>
+        <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} isDark={isDark} onToggleTheme={toggleTheme} onAddServices={addCustomServices} />
+      </ErrorBoundary>
       <main className="container max-w-7xl mx-auto px-4 py-6">
         <Tabs defaultValue="services" className="space-y-6">
           <TabsList className="bg-muted/50 border border-border">
@@ -29,17 +32,21 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="services">
-            <ServiceGrid
-              services={services}
-              onInstall={installService}
-              onUninstall={uninstallService}
-              onToggle={toggleService}
-              onConfigure={setConfigServiceId}
-            />
+            <ErrorBoundary>
+              <ServiceGrid
+                services={services}
+                onInstall={installService}
+                onUninstall={uninstallService}
+                onToggle={toggleService}
+                onConfigure={setConfigServiceId}
+              />
+            </ErrorBoundary>
           </TabsContent>
 
           <TabsContent value="dependencies">
-            <DependencyMap services={services} />
+            <ErrorBoundary>
+              <DependencyMap services={services} />
+            </ErrorBoundary>
           </TabsContent>
         </Tabs>
       </main>

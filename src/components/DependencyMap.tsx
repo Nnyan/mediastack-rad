@@ -1,4 +1,4 @@
-import { Service, SERVICE_DEFINITIONS } from "@/lib/services";
+import { Service } from "@/lib/services";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,13 +9,14 @@ interface DependencyMapProps {
 export function DependencyMap({ services }: DependencyMapProps) {
   const installedIds = new Set(services.filter((s) => s.installed).map((s) => s.id));
 
-  const edges = SERVICE_DEFINITIONS.flatMap((def) =>
-    def.config.dependencies.map((dep) => ({
-      from: def.id,
+  // Build edges from live service state (includes custom-added services)
+  const edges = services.flatMap((svc) =>
+    svc.config.dependencies.map((dep) => ({
+      from: svc.id,
       to: dep.serviceId,
       type: dep.type,
-      fromName: def.name,
-      toName: SERVICE_DEFINITIONS.find((d) => d.id === dep.serviceId)?.name || dep.serviceId,
+      fromName: svc.name,
+      toName: services.find((s) => s.id === dep.serviceId)?.name || dep.serviceId,
     }))
   );
 

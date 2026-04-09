@@ -3,26 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; connect-src 'self' https://hub.docker.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
     <title>MediaStack-RAD</title>
-    <meta name="description" content="Lovable Generated Project">
-    <meta name="author" content="Lovable" />
-
-    <!-- TODO: Update og:title to match your application name -->
-    
-    
+    <meta name="description" content="MediaStack-RAD – a visual dashboard for planning and managing your self-hosted media stack." />
+    <meta name="author" content="Nnyan" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/dce34425-6858-4cc8-9cdd-b5eed58e0d39/id-preview-2758dc5c--4edb471a-c50b-4948-b251-e31e84eb4491.lovable.app-1775744271758.png">
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/dce34425-6858-4cc8-9cdd-b5eed58e0d39/id-preview-2758dc5c--4edb471a-c50b-4948-b251-e31e84eb4491.lovable.app-1775744271758.png">
-    <meta property="og:title" content="MediaStack-RAD">
-  <meta name="twitter:title" content="MediaStack-RAD">
-  <meta property="og:description" content="Lovable Generated Project">
-  <meta name="twitter:description" content="Lovable Generated Project">
-</head>
-
+    <meta property="og:title" content="MediaStack-RAD" />
+    <meta property="og:description" content="Visual dashboard for planning and managing your self-hosted media stack." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MediaStack-RAD" />
+    <meta name="twitter:description" content="Visual dashboard for planning and managing your self-hosted media stack." />
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

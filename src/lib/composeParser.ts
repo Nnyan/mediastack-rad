@@ -23,6 +23,18 @@ interface ComposeFile {
   services?: Record<string, ComposeService>;
 }
 
+// Typed interface for Docker Hub API responses
+interface DockerHubRawResult {
+  repo_name?: string;
+  name?: string;
+  slug?: string;
+  short_description?: string;
+  description?: string;
+  star_count?: number;
+  pull_count?: number;
+  is_official?: boolean;
+}
+
 function parseEnvVars(env?: Record<string, string> | string[]): EnvVar[] {
   if (!env) return [];
   if (Array.isArray(env)) {
@@ -132,10 +144,10 @@ export async function searchDockerHub(query: string): Promise<DockerHubResult[]>
     `https://hub.docker.com/v2/search/repositories/?query=${encodeURIComponent(query)}&page_size=12`
   );
   if (!res.ok) throw new Error("Docker Hub search failed");
-  const data = await res.json();
-  return (data.results || []).map((r: any) => ({
-    name: r.repo_name || r.name,
-    slug: r.slug || r.repo_name || r.name,
+  const data = await res.json() as { results?: DockerHubRawResult[] };
+  return (data.results || []).map((r: DockerHubRawResult) => ({
+    name: r.repo_name || r.name || "",
+    slug: r.slug || r.repo_name || r.name || "",
     description: r.short_description || r.description || "",
     star_count: r.star_count || 0,
     pull_count: formatPulls(r.pull_count || 0),
@@ -163,7 +175,7 @@ export function dockerHubToDefinition(result: DockerHubResult): ServiceDefinitio
       network: "mediastack",
       restartPolicy: "unless-stopped",
       envVars: [
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [],
       dependencies: [],

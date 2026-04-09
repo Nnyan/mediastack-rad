@@ -1,3 +1,11 @@
+/**
+ * NOTE: This file provides static service definitions and simulation logic.
+ * Metrics such as CPU, memory, uptime, and health checks are SIMULATED
+ * using Math.random() for UI demonstration purposes only.
+ * There is no live Docker API integration – all install/uninstall actions
+ * are local UI state changes.
+ */
+
 export type ServiceStatus = "running" | "stopped" | "error" | "healing" | "installing";
 
 export interface EnvVar {
@@ -196,7 +204,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
         { key: "VERSION", value: "docker", description: "Plex version type" },
         { key: "PLEX_CLAIM", value: "", description: "Plex claim token from plex.tv/claim", secret: true },
       ],
@@ -231,7 +239,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/sonarr/config`, container: "/config", description: "Sonarr configuration and database" },
@@ -261,7 +269,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/radarr/config`, container: "/config", description: "Radarr configuration and database" },
@@ -291,7 +299,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/prowlarr/config`, container: "/config", description: "Prowlarr configuration and database" },
@@ -314,7 +322,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/bazarr/config`, container: "/config", description: "Bazarr configuration" },
@@ -340,7 +348,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       network: MEDIA_NETWORK,
       restartPolicy: "unless-stopped",
       envVars: [
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
         { key: "LOG_LEVEL", value: "info", description: "Logging level" },
       ],
       volumes: [
@@ -368,7 +376,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/newtarr/config`, container: "/config", description: "Newtarr configuration" },
@@ -396,7 +404,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID" },
         { key: "PGID", value: "1000", description: "Group ID" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/autobrr/config`, container: "/config", description: "Autobrr configuration" },
@@ -423,7 +431,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
         { key: "WEBUI_PORT", value: "8080", description: "Web UI port" },
         { key: "TORRENTING_PORT", value: "6881", description: "Incoming connections port" },
       ],
@@ -449,7 +457,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
       ],
       volumes: [
         { host: `${BASE_DATA}/sabnzbd/config`, container: "/config", description: "SABnzbd configuration" },
@@ -474,7 +482,7 @@ export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
       envVars: [
         { key: "PUID", value: "1000", description: "User ID for file permissions" },
         { key: "PGID", value: "1000", description: "Group ID for file permissions" },
-        { key: "TZ", value: "America/New_York", description: "Timezone" },
+        { key: "TZ", value: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC", description: "Timezone" },
         { key: "NZBOP_APPENDCATEGORYDIR", value: "yes", description: "Append category to download dir" },
       ],
       volumes: [
@@ -551,7 +559,7 @@ export function getInstallOrder(serviceIds: string[]): string[] {
 
   function visit(id: string) {
     if (visited.has(id)) return;
-    if (visiting.has(id)) return; // cycle
+    if (visiting.has(id)) { console.warn("[mediastack-rad] Dependency cycle detected at:", id); return; } // cycle
     visiting.add(id);
     const deps = depGraph.get(id) || [];
     deps.forEach((dep) => {
