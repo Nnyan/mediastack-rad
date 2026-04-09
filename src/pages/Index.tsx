@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useServices } from "@/hooks/useServices";
+import { useTheme } from "@/hooks/useTheme";
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { ServiceGrid } from "@/components/ServiceGrid";
 import { ServiceConfigPanel } from "@/components/ServiceConfigPanel";
@@ -11,10 +12,11 @@ const Index = () => {
   const { services, installService, uninstallService, toggleService, installAll, uninstallAll, updateEnvVar } = useServices();
   const [configServiceId, setConfigServiceId] = useState<string | null>(null);
   const configService = configServiceId ? services.find((s) => s.id === configServiceId) || null : null;
+  const { isDark, toggle: toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} />
+      <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} isDark={isDark} onToggleTheme={toggleTheme} />
       <main className="container max-w-7xl mx-auto px-4 py-6">
         <Tabs defaultValue="services" className="space-y-6">
           <TabsList className="bg-muted/50 border border-border">
