@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Download, Trash2, Activity, Server, AlertTriangle, CheckCircle, Sun, Moon } from "lucide-react";
-import { Service } from "@/lib/services";
+import { Service, ServiceDefinition } from "@/lib/services";
+import { AddAppDialog } from "./AddAppDialog";
 
 interface DashboardHeaderProps {
   services: Service[];
@@ -8,9 +9,10 @@ interface DashboardHeaderProps {
   onUninstallAll: () => void;
   isDark: boolean;
   onToggleTheme: () => void;
+  onAddServices: (defs: ServiceDefinition[]) => void;
 }
 
-export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark, onToggleTheme }: DashboardHeaderProps) {
+export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark, onToggleTheme, onAddServices }: DashboardHeaderProps) {
   const running = services.filter((s) => s.status === "running").length;
   const errors = services.filter((s) => s.status === "error" || s.status === "healing").length;
   const installed = services.filter((s) => s.installed).length;
