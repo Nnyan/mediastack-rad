@@ -46,6 +46,7 @@ export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark
             <Button variant="outline" size="icon" className="h-8 w-8" onClick={onToggleTheme} title={isDark ? "Switch to light" : "Switch to dark"}>
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
+            <AddAppDialog existingIds={services.map((s) => s.id)} onAddServices={onAddServices} />
             <Button variant="outline" size="sm" className="font-mono text-xs border-primary/30 text-primary hover:bg-primary/10" onClick={onInstallAll}>
               <Download className="w-3.5 h-3.5 mr-1.5" /> Install All
             </Button>

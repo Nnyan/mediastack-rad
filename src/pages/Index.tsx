@@ -9,14 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LayoutGrid, GitBranch } from "lucide-react";
 
 const Index = () => {
-  const { services, installService, uninstallService, toggleService, installAll, uninstallAll, updateEnvVar } = useServices();
+  const { services, installService, uninstallService, toggleService, installAll, uninstallAll, updateEnvVar, addCustomServices } = useServices();
   const [configServiceId, setConfigServiceId] = useState<string | null>(null);
   const configService = configServiceId ? services.find((s) => s.id === configServiceId) || null : null;
   const { isDark, toggle: toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-background">
-      <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} isDark={isDark} onToggleTheme={toggleTheme} />
+      <DashboardHeader services={services} onInstallAll={installAll} onUninstallAll={uninstallAll} isDark={isDark} onToggleTheme={toggleTheme} onAddServices={addCustomServices} />
       <main className="container max-w-7xl mx-auto px-4 py-6">
         <Tabs defaultValue="services" className="space-y-6">
           <TabsList className="bg-muted/50 border border-border">
