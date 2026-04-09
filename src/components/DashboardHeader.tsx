@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Download, Trash2, Activity, Server, AlertTriangle, CheckCircle } from "lucide-react";
+import { Download, Trash2, Activity, Server, AlertTriangle, CheckCircle, Sun, Moon } from "lucide-react";
 import { Service } from "@/lib/services";
 
 interface DashboardHeaderProps {
   services: Service[];
   onInstallAll: () => void;
   onUninstallAll: () => void;
+  isDark: boolean;
+  onToggleTheme: () => void;
 }
 
 export function DashboardHeader({ services, onInstallAll, onUninstallAll }: DashboardHeaderProps) {
