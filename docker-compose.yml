@@ -1,0 +1,27 @@
+services:
+  mediastack-rad:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mediastack-rad
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8090}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      # Traefik labels — only active when using Traefik as reverse proxy
+      - "traefik.enable=${TRAEFIK_ENABLE:-false}"
+      - "traefik.http.routers.mediastack-rad.rule=Host(`${TRAEFIK_HOST:-mediastack-rad.localhost}`)"
+      - "traefik.http.routers.mediastack-rad.entrypoints=websecure"
+      - "traefik.http.routers.mediastack-rad.tls.certresolver=letsencrypt"
+      - "traefik.http.services.mediastack-rad.loadbalancer.server.port=80"
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK:-mediastack-rad}
+    external: ${NETWORK_EXTERNAL:-false}
