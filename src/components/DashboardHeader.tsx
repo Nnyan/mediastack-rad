@@ -10,7 +10,7 @@ interface DashboardHeaderProps {
   onToggleTheme: () => void;
 }
 
-export function DashboardHeader({ services, onInstallAll, onUninstallAll }: DashboardHeaderProps) {
+export function DashboardHeader({ services, onInstallAll, onUninstallAll, isDark, onToggleTheme }: DashboardHeaderProps) {
   const running = services.filter((s) => s.status === "running").length;
   const errors = services.filter((s) => s.status === "error" || s.status === "healing").length;
   const installed = services.filter((s) => s.installed).length;
@@ -41,6 +41,9 @@ export function DashboardHeader({ services, onInstallAll, onUninstallAll }: Dash
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" className="h-8 w-8" onClick={onToggleTheme} title={isDark ? "Switch to light" : "Switch to dark"}>
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
             <Button variant="outline" size="sm" className="font-mono text-xs border-primary/30 text-primary hover:bg-primary/10" onClick={onInstallAll}>
               <Download className="w-3.5 h-3.5 mr-1.5" /> Install All
             </Button>
