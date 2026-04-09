@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import {
   Service,
   ServiceStatus,
+  ServiceDefinition,
   SERVICE_DEFINITIONS,
   createServiceInstance,
   getInstallOrder,
@@ -196,5 +197,15 @@ export function useServices() {
     );
   }, []);
 
-  return { services, installService, uninstallService, toggleService, installAll, uninstallAll, updateEnvVar };
+  const addCustomServices = useCallback((defs: ServiceDefinition[]) => {
+    setServices((prev) => {
+      const existingIds = new Set(prev.map((s) => s.id));
+      const newServices = defs
+        .filter((d) => !existingIds.has(d.id))
+        .map((d) => createServiceInstance(d, false, "stopped"));
+      return [...prev, ...newServices];
+    });
+  }, []);
+
+  return { services, installService, uninstallService, toggleService, installAll, uninstallAll, updateEnvVar, addCustomServices };
 }
