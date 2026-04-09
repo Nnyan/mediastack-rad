@@ -81,7 +81,7 @@
     box-shadow: var(--glow-destructive);
   }
   .text-glow-primary {
-    text-shadow: 0 0 10px hsl(160 100% 45% / 0.5);
+    text-shadow: 0 0 10px hsl(160 80% 38% / 0.3);
   }
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
